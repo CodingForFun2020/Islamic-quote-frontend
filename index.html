@@ -5,151 +5,568 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Islamic Comfort Quotes</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg1: #0f172a;
+      --bg2: #111827;
+      --bg3: #1e293b;
+      --card: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --soft: #94a3b8;
+      --green: #22c55e;
+      --green-dark: #052e16;
+      --gold: #fbbf24;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
-      color: white;
+      font-family: "Inter", Arial, sans-serif;
+      color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
+      background:
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.08), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(251, 191, 36, 0.06), transparent 22%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      opacity: 0.08;
+      background-image:
+        linear-gradient(30deg, rgba(255,255,255,0.10) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.10) 87.5%, rgba(255,255,255,0.10)),
+        linear-gradient(150deg, rgba(255,255,255,0.10) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.10) 87.5%, rgba(255,255,255,0.10)),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 2%, transparent 2.5%, transparent 97%, rgba(255,255,255,0.06) 97.5%, rgba(255,255,255,0.06));
+      background-size: 90px 156px;
+      background-position: 0 0, 0 0, 45px 78px;
+    }
+
+    body::after {
+      opacity: 0.04;
+      background-image:
+        radial-gradient(circle at center, rgba(255,255,255,0.35) 0 1px, transparent 1.5px);
+      background-size: 28px 28px;
     }
 
     .container {
+      position: relative;
+      z-index: 1;
       width: 100%;
-      max-width: 700px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 20px;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 24px;
       padding: 32px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.22);
+      color: #bbf7d0;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 18px;
     }
 
     h1 {
-      margin-top: 0;
-      font-size: 2rem;
+      margin: 0 0 12px;
+      font-size: 2.2rem;
+      line-height: 1.15;
     }
 
-    p {
-      color: #cbd5e1;
-      line-height: 1.6;
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 700px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      padding: 11px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.18s ease;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn.active {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: rgba(34, 197, 94, 0.32);
+      color: #bbf7d0;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .input-wrap {
+      margin-top: 18px;
     }
 
     textarea {
       width: 100%;
-      min-height: 140px;
-      padding: 16px;
-      border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      min-height: 150px;
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
       background: rgba(255, 255, 255, 0.08);
       color: white;
       font-size: 16px;
+      line-height: 1.6;
       resize: vertical;
       outline: none;
-      margin-top: 14px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     }
 
-    button {
-      margin-top: 16px;
-      border: none;
-      border-radius: 12px;
-      padding: 14px 20px;
-      font-size: 16px;
-      font-weight: bold;
+    textarea::placeholder {
+      color: #9ca3af;
+    }
+
+    textarea:focus {
+      border-color: rgba(34, 197, 94, 0.55);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .input-meta {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    .suggestions {
+      margin-top: 22px;
+    }
+
+    .suggestions-title {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
       cursor: pointer;
-      background: #22c55e;
-      color: #052e16;
+      font-size: 14px;
+      transition: all 0.18s ease;
+    }
+
+    .chip:hover {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .controls {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
     }
 
     .toggle-row {
-      margin-top: 16px;
       display: flex;
       align-items: center;
       gap: 10px;
-      color: #e2e8f0;
+      color: var(--muted);
       font-size: 15px;
     }
 
-    .result {
-      margin-top: 24px;
-      padding: 20px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.07);
-      border-left: 4px solid #22c55e;
-      display: none;
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .arabic {
-      direction: rtl;
-      text-align: right;
-      font-size: 1.7rem;
-      line-height: 2;
-      margin-bottom: 14px;
-      font-family: "Amiri", serif;
-      color: #f8fafc;
+    button {
+      border: none;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .quote {
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: #f8fafc;
+    button:hover {
+      transform: translateY(-1px);
     }
 
-    .reference {
-      color: #94a3b8;
-      margin-top: 10px;
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .primary-btn {
+      background: var(--green);
+      color: var(--green-dark);
+      box-shadow: 0 10px 24px rgba(34, 197, 94, 0.2);
+    }
+
+    .secondary-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border: 1px solid var(--border);
     }
 
     .status {
-      margin-top: 12px;
-      color: #cbd5e1;
+      margin-top: 16px;
+      min-height: 20px;
+      color: var(--muted);
       font-size: 14px;
+    }
+
+    .result,
+    .verse-card,
+    .favourites-card {
+      margin-top: 26px;
+      padding: 24px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .result {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .result.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .result-top,
+    .verse-top,
+    .favourites-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .category-badge,
+    .verse-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(251, 191, 36, 0.12);
+      border: 1px solid rgba(251, 191, 36, 0.2);
+      color: #fde68a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .small-btn {
+      padding: 10px 14px;
+      font-size: 13px;
+      border-radius: 12px;
+    }
+
+    .arabic,
+    .verse-arabic,
+    .fav-arabic {
+      direction: rtl;
+      text-align: right;
+      font-size: 1.9rem;
+      line-height: 2;
+      margin-bottom: 14px;
+      font-family: "Amiri", serif;
+      color: #ffffff;
+    }
+
+    .quote,
+    .verse-quote,
+    .fav-quote {
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: #f8fafc;
+    }
+
+    .reference,
+    .verse-reference,
+    .fav-reference {
+      color: var(--soft);
+      margin-top: 12px;
+      font-size: 0.96rem;
+    }
+
+    .verse-description,
+    .empty-state {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    .favourites-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .fav-item {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .fav-actions {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      color: var(--soft);
+      font-size: 13px;
+      line-height: 1.6;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 16px;
     }
 
     .hidden {
       display: none;
     }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 22px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .arabic,
+      .verse-arabic,
+      .fav-arabic {
+        font-size: 1.55rem;
+      }
+
+      .actions {
+        width: 100%;
+      }
+
+      .actions button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="top-badge">Islamic Reminder Finder</div>
+
     <h1>Find comfort through Islamic reminders</h1>
-    <p>
-      Share what you are struggling with, and receive a relevant Islamic quote.
+    <p class="subtitle">
+      Share what you are going through and receive a relevant Qur'anic reminder.
+      Save the ones that speak to you, and keep a calm daily verse close at hand.
     </p>
 
-    <textarea
-      id="struggleInput"
-      placeholder="Example: I feel overwhelmed and anxious about the future..."
-    ></textarea>
-
-    <div class="toggle-row">
-      <input type="checkbox" id="showArabicToggle" checked onchange="updateArabicVisibility()">
-      <label for="showArabicToggle">Show Arabic text</label>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('reminder', this)">Reminder</button>
+      <button class="tab-btn" onclick="switchTab('verse', this)">Verse of the Day</button>
+      <button class="tab-btn" onclick="switchTab('favourites', this)">Favourites</button>
     </div>
 
-    <button onclick="getReminder()">Get Reminder</button>
+    <div id="reminderTab" class="tab-panel active">
+      <div class="input-wrap">
+        <textarea
+          id="struggleInput"
+          maxlength="500"
+          placeholder="Example: I feel overwhelmed, anxious about the future, and mentally exhausted..."
+          oninput="updateCharacterCount()"
+        ></textarea>
 
-    <div class="status" id="statusText"></div>
+        <div class="input-meta">
+          <div>Be as honest or as brief as you like.</div>
+          <div><span id="charCount">0</span>/500</div>
+        </div>
+      </div>
 
-    <div class="result" id="resultBox">
-      <div class="arabic" id="arabicText"></div>
-      <div class="quote" id="quoteText"></div>
-      <div class="reference" id="quoteReference"></div>
+      <div class="suggestions">
+        <div class="suggestions-title">Try a prompt</div>
+        <div class="chip-group">
+          <button class="chip" onclick="fillPrompt('I feel anxious about my future and I do not know what will happen.')">Anxiety about the future</button>
+          <button class="chip" onclick="fillPrompt('I have been feeling sad and emotionally drained lately.')">Sadness</button>
+          <button class="chip" onclick="fillPrompt('I feel guilty about mistakes I have made and I want forgiveness.')">Guilt and repentance</button>
+          <button class="chip" onclick="fillPrompt('I am struggling with hardship and feel weighed down.')">Hardship</button>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="toggle-row">
+          <input type="checkbox" id="showArabicToggle" checked onchange="updateArabicVisibility()">
+          <label for="showArabicToggle">Show Arabic text</label>
+        </div>
+
+        <div class="actions">
+          <button class="primary-btn" id="getReminderBtn" onclick="getReminder()">Get Reminder</button>
+          <button class="secondary-btn" onclick="clearAll()">Clear</button>
+        </div>
+      </div>
+
+      <div class="status" id="statusText"></div>
+
+      <div class="result" id="resultBox">
+        <div class="result-top">
+          <div class="category-badge" id="categoryBadge">Reminder</div>
+
+          <div class="result-actions">
+            <button class="secondary-btn small-btn" onclick="copyReminder()">Copy</button>
+            <button class="secondary-btn small-btn" onclick="saveFavourite()">Save Favourite</button>
+          </div>
+        </div>
+
+        <div class="arabic" id="arabicText"></div>
+        <div class="quote" id="quoteText"></div>
+        <div class="reference" id="quoteReference"></div>
+      </div>
+    </div>
+
+    <div id="verseTab" class="tab-panel">
+      <div class="verse-card">
+        <div class="verse-top">
+          <div class="verse-badge">Verse of the Day</div>
+        </div>
+
+        <div class="verse-quote">“Surely, in the remembrance of Allah do hearts find comfort.”</div>
+        <div class="verse-reference">Qur'an 13:28</div>
+        <div class="verse-description">
+          Return to this verse whenever you need a small moment of calm and grounding.
+        </div>
+      </div>
+    </div>
+
+    <div id="favouritesTab" class="tab-panel">
+      <div class="favourites-card">
+        <div class="favourites-top">
+          <div class="verse-badge">Saved Favourites</div>
+          <button class="secondary-btn small-btn" onclick="clearFavourites()">Clear All</button>
+        </div>
+
+        <div id="favouritesList" class="favourites-list"></div>
+        <div id="favouritesEmpty" class="empty-state">
+          No favourites saved yet. Save a reminder from the Reminder tab to see it here.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      This tool provides general Islamic reminders for reflection and encouragement.
+      It is not a substitute for professional mental health, medical, or religious advice.
     </div>
   </div>
 
   <script>
+    function switchTab(tabName, button) {
+      document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
+      document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+
+      if (tabName === "reminder") {
+        document.getElementById("reminderTab").classList.add("active");
+      } else if (tabName === "verse") {
+        document.getElementById("verseTab").classList.add("active");
+      } else if (tabName === "favourites") {
+        document.getElementById("favouritesTab").classList.add("active");
+        renderFavourites();
+      }
+
+      button.classList.add("active");
+    }
+
+    function updateCharacterCount() {
+      const input = document.getElementById("struggleInput").value;
+      document.getElementById("charCount").textContent = input.length;
+    }
+
+    function fillPrompt(text) {
+      document.getElementById("struggleInput").value = text;
+      updateCharacterCount();
+    }
+
     function updateArabicVisibility() {
       const arabicText = document.getElementById("arabicText");
       const showArabic = document.getElementById("showArabicToggle").checked;
@@ -161,6 +578,25 @@
       }
     }
 
+    function inferCategory(input, quote, reference) {
+      const text = `${input} ${quote} ${reference}`.toLowerCase();
+
+      if (text.includes("anxious") || text.includes("worried") || text.includes("trust")) {
+        return "Trust in Allah";
+      }
+      if (text.includes("sad") || text.includes("despair") || text.includes("grief")) {
+        return "Hope";
+      }
+      if (text.includes("hardship") || text.includes("difficulty") || text.includes("ease")) {
+        return "Patience";
+      }
+      if (text.includes("guilt") || text.includes("mercy") || text.includes("forgive")) {
+        return "Mercy";
+      }
+
+      return "Reminder";
+    }
+
     async function getReminder() {
       const input = document.getElementById("struggleInput").value.trim();
       const arabicText = document.getElementById("arabicText");
@@ -168,17 +604,22 @@
       const quoteReference = document.getElementById("quoteReference");
       const resultBox = document.getElementById("resultBox");
       const statusText = document.getElementById("statusText");
+      const getReminderBtn = document.getElementById("getReminderBtn");
+      const categoryBadge = document.getElementById("categoryBadge");
 
       if (!input) {
         statusText.textContent = "Please enter something first.";
         resultBox.style.display = "none";
+        resultBox.classList.remove("show");
         return;
       }
 
-      statusText.textContent = "Finding a reminder...";
+      statusText.textContent = "Finding a reminder for you...";
+      getReminderBtn.disabled = true;
+      getReminderBtn.textContent = "Loading...";
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/get-quote", {
+        const response = await fetch("https://islamic-quote-app.onrender.com/get-quote", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -194,18 +635,145 @@
 
         arabicText.textContent = data.arabic || "";
         quoteText.textContent = `"${data.quote}"`;
-        quoteReference.textContent = data.reference;
+        quoteReference.textContent = data.reference || "";
+
+        categoryBadge.textContent = inferCategory(input, data.quote || "", data.reference || "");
 
         resultBox.style.display = "block";
-        statusText.textContent = "";
-
         updateArabicVisibility();
+
+        requestAnimationFrame(() => {
+          resultBox.classList.add("show");
+        });
+
+        statusText.textContent = "Here is a reminder that may help.";
       } catch (error) {
         statusText.textContent = "Could not connect to the backend.";
         resultBox.style.display = "none";
+        resultBox.classList.remove("show");
         console.error(error);
+      } finally {
+        getReminderBtn.disabled = false;
+        getReminderBtn.textContent = "Get Reminder";
       }
     }
+
+    async function copyReminder() {
+      const arabic = document.getElementById("arabicText").textContent.trim();
+      const quote = document.getElementById("quoteText").textContent.trim();
+      const reference = document.getElementById("quoteReference").textContent.trim();
+      const showArabic = document.getElementById("showArabicToggle").checked;
+      const statusText = document.getElementById("statusText");
+
+      let content = "";
+
+      if (showArabic && arabic) {
+        content += arabic + "\n\n";
+      }
+
+      content += quote + "\n" + reference;
+
+      try {
+        await navigator.clipboard.writeText(content);
+        statusText.textContent = "Reminder copied to clipboard.";
+      } catch (error) {
+        statusText.textContent = "Could not copy the reminder.";
+      }
+    }
+
+    function getStoredFavourites() {
+      return JSON.parse(localStorage.getItem("favourites")) || [];
+    }
+
+    function saveFavourite() {
+      const arabic = document.getElementById("arabicText").textContent.trim();
+      const quote = document.getElementById("quoteText").textContent.trim();
+      const reference = document.getElementById("quoteReference").textContent.trim();
+      const statusText = document.getElementById("statusText");
+
+      if (!quote) {
+        statusText.textContent = "Get a reminder first before saving it.";
+        return;
+      }
+
+      const favourites = getStoredFavourites();
+
+      const exists = favourites.some(item =>
+        item.quote === quote && item.reference === reference
+      );
+
+      if (exists) {
+        statusText.textContent = "This reminder is already in your favourites.";
+        return;
+      }
+
+      favourites.unshift({
+        arabic,
+        quote,
+        reference
+      });
+
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+      statusText.textContent = "Reminder saved to favourites.";
+      renderFavourites();
+    }
+
+    function removeFavourite(index) {
+      const favourites = getStoredFavourites();
+      favourites.splice(index, 1);
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+      renderFavourites();
+    }
+
+    function clearFavourites() {
+      localStorage.removeItem("favourites");
+      renderFavourites();
+    }
+
+    function renderFavourites() {
+      const favourites = getStoredFavourites();
+      const favouritesList = document.getElementById("favouritesList");
+      const favouritesEmpty = document.getElementById("favouritesEmpty");
+
+      favouritesList.innerHTML = "";
+
+      if (favourites.length === 0) {
+        favouritesEmpty.style.display = "block";
+        return;
+      }
+
+      favouritesEmpty.style.display = "none";
+
+      favourites.forEach((item, index) => {
+        const favItem = document.createElement("div");
+        favItem.className = "fav-item";
+
+        favItem.innerHTML = `
+          ${item.arabic ? `<div class="fav-arabic">${item.arabic}</div>` : ""}
+          <div class="fav-quote">${item.quote}</div>
+          <div class="fav-reference">${item.reference}</div>
+          <div class="fav-actions">
+            <button class="secondary-btn small-btn" onclick="removeFavourite(${index})">Remove</button>
+          </div>
+        `;
+
+        favouritesList.appendChild(favItem);
+      });
+    }
+
+    function clearAll() {
+      document.getElementById("struggleInput").value = "";
+      document.getElementById("arabicText").textContent = "";
+      document.getElementById("quoteText").textContent = "";
+      document.getElementById("quoteReference").textContent = "";
+      document.getElementById("statusText").textContent = "";
+      document.getElementById("charCount").textContent = "0";
+      document.getElementById("resultBox").style.display = "none";
+      document.getElementById("resultBox").classList.remove("show");
+      document.getElementById("categoryBadge").textContent = "Reminder";
+    }
+
+    renderFavourites();
   </script>
 </body>
 </html>
